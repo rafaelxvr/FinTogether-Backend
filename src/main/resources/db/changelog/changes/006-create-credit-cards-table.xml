@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <changeSet id="006-create-credit-cards-table" author="fintogether">
+        <createTable tableName="credit_cards">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="budget_id" type="uuid">
+                <constraints nullable="false" foreignKeyName="fk_card_budget" references="budgets(id)" deleteCascade="true"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="issuer" type="varchar(255)"/>
+            <column name="last_four" type="varchar(4)"/>
+            <column name="currency" type="varchar(10)" defaultValue="BRL">
+                <constraints nullable="false"/>
+            </column>
+            <column name="statement_close_day" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="due_day" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="linked_account_id" type="uuid">
+                <constraints foreignKeyName="fk_card_account" references="accounts(id)"/>
+            </column>
+            <column name="active" type="boolean" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createIndex tableName="credit_cards" indexName="idx_cards_budget">
+            <column name="budget_id"/>
+        </createIndex>
+    </changeSet>
+
+</databaseChangeLog>

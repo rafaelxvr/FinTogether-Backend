@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <changeSet id="018-create-merchants-table" author="fintogether">
+        <createTable tableName="merchants">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="budget_id" type="uuid">
+                <constraints nullable="false"
+                             foreignKeyName="fk_merchants_budget"
+                             references="budgets(id)"
+                             deleteCascade="true"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="display_name" type="varchar(255)"/>
+            <column name="logo_url" type="text"/>
+            <column name="color" type="varchar(20)"/>
+            <column name="default_category_id" type="uuid">
+                <constraints foreignKeyName="fk_merchants_default_category"
+                             references="categories(id)"/>
+            </column>
+            <column name="archived" type="boolean" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createIndex indexName="idx_merchants_budget" tableName="merchants">
+            <column name="budget_id"/>
+        </createIndex>
+
+        <addUniqueConstraint
+                constraintName="uq_merchants_budget_name"
+                tableName="merchants"
+                columnNames="budget_id, name"/>
+    </changeSet>
+
+</databaseChangeLog>

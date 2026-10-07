@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <changeSet id="009-create-import-profiles-table" author="fintogether">
+        <createTable tableName="import_profiles">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="budget_id" type="uuid">
+                <constraints nullable="false" foreignKeyName="fk_profile_budget" references="budgets(id)" deleteCascade="true"/>
+            </column>
+            <column name="card_id" type="uuid">
+                <constraints foreignKeyName="fk_profile_card" references="credit_cards(id)"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="delimiter" type="varchar(5)" defaultValue=",">
+                <constraints nullable="false"/>
+            </column>
+            <column name="encoding" type="varchar(20)" defaultValue="UTF-8">
+                <constraints nullable="false"/>
+            </column>
+            <column name="mapping" type="jsonb">
+                <constraints nullable="false"/>
+            </column>
+            <column name="rules" type="jsonb"/>
+            <column name="created_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createIndex tableName="import_profiles" indexName="idx_profiles_budget">
+            <column name="budget_id"/>
+        </createIndex>
+        <createIndex tableName="import_profiles" indexName="idx_profiles_card">
+            <column name="card_id"/>
+        </createIndex>
+    </changeSet>
+
+</databaseChangeLog>

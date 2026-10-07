@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <changeSet id="015-create-recurring-transaction-templates-table" author="fintogether">
+        <createTable tableName="recurring_transaction_templates">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="budget_id" type="uuid">
+                <constraints nullable="false" foreignKeyName="fk_recurring_template_budget" references="budgets(id)" deleteCascade="true"/>
+            </column>
+            <column name="user_id" type="uuid">
+                <constraints nullable="false" foreignKeyName="fk_recurring_template_user" references="users(id)"/>
+            </column>
+            <column name="amount" type="decimal(15,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="type" type="varchar(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="account_id" type="uuid">
+                <constraints foreignKeyName="fk_recurring_template_account" references="accounts(id)"/>
+            </column>
+            <column name="category_id" type="uuid">
+                <constraints foreignKeyName="fk_recurring_template_category" references="categories(id)"/>
+            </column>
+            <column name="card_id" type="uuid">
+                <constraints foreignKeyName="fk_recurring_template_card" references="credit_cards(id)"/>
+            </column>
+            <column name="description" type="text"/>
+            <column name="notes" type="text"/>
+            <column name="tags" type="text"/>
+            <column name="visibility" type="varchar(20)" defaultValue="SHARED">
+                <constraints nullable="false"/>
+            </column>
+            <column name="is_fixed_expense" type="boolean" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="recurrence_rule" type="jsonb">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_generated_date" type="date"/>
+            <column name="next_due_date" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="is_active" type="boolean" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createIndex tableName="recurring_transaction_templates" indexName="idx_recurring_template_budget_id">
+            <column name="budget_id"/>
+        </createIndex>
+
+        <createIndex tableName="recurring_transaction_templates" indexName="idx_recurring_template_active_next_due">
+            <column name="is_active"/>
+            <column name="next_due_date"/>
+        </createIndex>
+
+        <createIndex tableName="recurring_transaction_templates" indexName="idx_recurring_template_budget_fixed">
+            <column name="budget_id"/>
+            <column name="is_fixed_expense"/>
+        </createIndex>
+    </changeSet>
+
+</databaseChangeLog>

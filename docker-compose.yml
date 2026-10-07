@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: fintogether-postgres
+    environment:
+      POSTGRES_DB: fintogether_dev
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - fintogether-network
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: fintogether-backend
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/fintogether_dev
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      JWT_SECRET: dev-secret-key-for-development-only-change-in-production-256-bits
+    depends_on:
+      - postgres
+    networks:
+      - fintogether-network
+
+volumes:
+  postgres_data:
+
+networks:
+  fintogether-network:
+    driver: bridge

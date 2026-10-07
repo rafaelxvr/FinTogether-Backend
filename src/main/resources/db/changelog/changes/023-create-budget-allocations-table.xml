@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <changeSet id="023-create-budget-allocations-table" author="fintogether">
+        <createTable tableName="budget_allocations">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="budget_id" type="uuid">
+                <constraints nullable="false" foreignKeyName="fk_allocation_budget" references="budgets(id)" deleteCascade="true"/>
+            </column>
+            <column name="category_id" type="uuid">
+                <constraints nullable="false" foreignKeyName="fk_allocation_category" references="categories(id)" deleteCascade="true"/>
+            </column>
+            <column name="month" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="allocated_amount" type="decimal(15,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+
+        <addUniqueConstraint
+                tableName="budget_allocations"
+                columnNames="budget_id, category_id, month"
+                constraintName="uq_allocation_budget_category_month"/>
+
+        <createIndex tableName="budget_allocations" indexName="idx_allocations_budget_month">
+            <column name="budget_id"/>
+            <column name="month"/>
+        </createIndex>
+    </changeSet>
+
+</databaseChangeLog>

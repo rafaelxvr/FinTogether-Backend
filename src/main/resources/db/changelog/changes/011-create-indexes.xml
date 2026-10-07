@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <changeSet id="011-create-indexes" author="fintogether">
+        <!-- Transaction indexes for better query performance -->
+        <createIndex tableName="transactions" indexName="idx_transactions_budget">
+            <column name="budget_id"/>
+        </createIndex>
+        <createIndex tableName="transactions" indexName="idx_transactions_date">
+            <column name="transaction_date"/>
+        </createIndex>
+        <createIndex tableName="transactions" indexName="idx_transactions_category">
+            <column name="category_id"/>
+        </createIndex>
+        <createIndex tableName="transactions" indexName="idx_transactions_account">
+            <column name="account_id"/>
+        </createIndex>
+        <createIndex tableName="transactions" indexName="idx_transactions_card">
+            <column name="card_id"/>
+        </createIndex>
+        <createIndex tableName="transactions" indexName="idx_transactions_installment_group">
+            <column name="installment_group_id"/>
+        </createIndex>
+
+        <!-- Sync log indexes for efficient querying -->
+        <createIndex tableName="sync_log" indexName="idx_sync_budget">
+            <column name="budget_id"/>
+        </createIndex>
+        <createIndex tableName="sync_log" indexName="idx_sync_timestamp">
+            <column name="timestamp"/>
+        </createIndex>
+        <createIndex tableName="sync_log" indexName="idx_sync_entity">
+            <column name="entity_type"/>
+            <column name="entity_id"/>
+        </createIndex>
+
+        <!-- Composite index for common transaction queries -->
+        <createIndex tableName="transactions" indexName="idx_transactions_budget_date">
+            <column name="budget_id"/>
+            <column name="transaction_date" descending="true"/>
+        </createIndex>
+    </changeSet>
+
+</databaseChangeLog>

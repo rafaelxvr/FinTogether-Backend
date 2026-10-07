@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <include file="db/changelog/changes/001-create-users-table.xml"/>
+    <include file="db/changelog/changes/002-create-budgets-table.xml"/>
+    <include file="db/changelog/changes/003-create-budget-members-table.xml"/>
+    <include file="db/changelog/changes/004-create-categories-table.xml"/>
+    <include file="db/changelog/changes/005-create-accounts-table.xml"/>
+    <include file="db/changelog/changes/006-create-credit-cards-table.xml"/>
+    <include file="db/changelog/changes/007-create-transactions-table.xml"/>
+    <include file="db/changelog/changes/008-create-installment-groups-table.xml"/>
+    <include file="db/changelog/changes/009-create-import-profiles-table.xml"/>
+    <include file="db/changelog/changes/010-create-sync-log-table.xml"/>
+    <include file="db/changelog/changes/011-create-indexes.xml"/>
+    <include file="db/changelog/changes/012-add-password-reset-fields.xml"/>
+    <include file="db/changelog/changes/013-add-credit-card-limit.xml"/>
+    <include file="db/changelog/changes/014-add-status-to-installment-groups.xml"/>
+    <include file="db/changelog/changes/015-create-recurring-transaction-templates-table.xml"/>
+    <include file="db/changelog/changes/016-add-parent-recurring-id-to-transactions.xml"/>
+    <include file="db/changelog/changes/017-add-is-essential-to-categories.xml"/>
+    <include file="db/changelog/changes/018-create-merchants-table.xml"/>
+    <include file="db/changelog/changes/019-add-merchant-id-to-transactions.xml"/>
+    <include file="db/changelog/changes/020-create-savings-goals-table.xml"/>
+    <include file="db/changelog/changes/021-create-savings-goal-contributions-table.xml"/>
+    <include file="db/changelog/changes/022-create-transaction-splits-table.xml"/>
+    <include file="db/changelog/changes/023-create-budget-allocations-table.xml"/>
+    <include file="db/changelog/changes/024-create-credit-card-payments-table.xml"/>
+    <include file="db/changelog/changes/025-create-import-history-table.xml"/>
+
+</databaseChangeLog>

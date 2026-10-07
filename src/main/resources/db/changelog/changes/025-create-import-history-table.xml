@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <changeSet id="025-create-import-history-table" author="fintogether">
+        <createTable tableName="import_history">
+            <column name="id" type="uuid" defaultValueComputed="gen_random_uuid()">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="budget_id" type="uuid">
+                <constraints nullable="false" foreignKeyName="fk_import_history_budget" references="budgets(id)" deleteCascade="true"/>
+            </column>
+            <column name="import_profile_id" type="uuid">
+                <constraints foreignKeyName="fk_import_history_profile" references="import_profiles(id)"/>
+            </column>
+            <column name="file_name" type="varchar(500)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="total_rows" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="imported_rows" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="skipped_rows" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="duplicate_rows" type="int" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="varchar(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="error_message" type="text"/>
+            <column name="imported_by" type="uuid">
+                <constraints nullable="false" foreignKeyName="fk_import_history_user" references="users(id)"/>
+            </column>
+            <column name="created_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createIndex indexName="idx_import_history_budget" tableName="import_history">
+            <column name="budget_id"/>
+        </createIndex>
+    </changeSet>
+
+</databaseChangeLog>

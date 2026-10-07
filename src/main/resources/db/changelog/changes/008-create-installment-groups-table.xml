@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <changeSet id="008-create-installment-groups-table" author="fintogether">
+        <createTable tableName="installment_groups">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="budget_id" type="uuid">
+                <constraints nullable="false" foreignKeyName="fk_installment_budget" references="budgets(id)" deleteCascade="true"/>
+            </column>
+            <column name="card_id" type="uuid">
+                <constraints foreignKeyName="fk_installment_card" references="credit_cards(id)"/>
+            </column>
+            <column name="total_amount" type="decimal(15,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="installment_count" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="interest_rate" type="decimal(5,2)" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="start_date" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="text"/>
+            <column name="created_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createIndex tableName="installment_groups" indexName="idx_installment_budget">
+            <column name="budget_id"/>
+        </createIndex>
+        <createIndex tableName="installment_groups" indexName="idx_installment_card">
+            <column name="card_id"/>
+        </createIndex>
+    </changeSet>
+
+</databaseChangeLog>

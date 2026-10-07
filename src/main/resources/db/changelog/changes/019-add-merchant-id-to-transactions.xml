@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <changeSet id="019-add-merchant-id-to-transactions" author="fintogether">
+        <addColumn tableName="transactions">
+            <column name="merchant_id" type="uuid">
+                <constraints foreignKeyName="fk_transactions_merchant"
+                             references="merchants(id)"/>
+            </column>
+        </addColumn>
+
+        <createIndex indexName="idx_transactions_merchant" tableName="transactions">
+            <column name="merchant_id"/>
+        </createIndex>
+    </changeSet>
+
+</databaseChangeLog>

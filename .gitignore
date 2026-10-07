@@ -1,0 +1,54 @@
+# Gradle
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+# IntelliJ IDEA
+.idea/
+*.iws
+*.iml
+*.ipr
+out/
+
+# Eclipse
+.classpath
+.project
+.settings/
+bin/
+
+# NetBeans
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+# VS Code
+.vscode/
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+
+# Logs
+*.log
+
+# Application properties (local)
+application-local.yml
+application-local.properties
+
+# Stale nested project copy; the canonical backend source is this directory
+/fintogether/
+
+# Accidental Windows device-name artifact
+/nul
+
+# Project planning/specification material is kept outside the public source repo
+/spec/
+/specs/
+/plan/
+/plans/

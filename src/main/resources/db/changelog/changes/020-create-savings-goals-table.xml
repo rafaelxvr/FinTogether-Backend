@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <changeSet id="020-create-savings-goals-table" author="fintogether">
+        <createTable tableName="savings_goals">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="budget_id" type="uuid">
+                <constraints nullable="false" foreignKeyName="fk_savings_goal_budget" references="budgets(id)" deleteCascade="true"/>
+            </column>
+            <column name="account_id" type="uuid">
+                <constraints nullable="true" foreignKeyName="fk_savings_goal_account" references="accounts(id)"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="varchar(500)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="target_amount" type="decimal(15,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="current_amount" type="decimal(15,2)" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="currency" type="varchar(10)" defaultValue="BRL">
+                <constraints nullable="false"/>
+            </column>
+            <column name="deadline" type="date">
+                <constraints nullable="true"/>
+            </column>
+            <column name="icon" type="varchar(50)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="color" type="varchar(7)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="active" type="boolean" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="completed_at" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+            <column name="created_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+
+        <createIndex tableName="savings_goals" indexName="idx_savings_goals_budget">
+            <column name="budget_id"/>
+        </createIndex>
+
+        <createIndex tableName="savings_goals" indexName="idx_savings_goals_account">
+            <column name="account_id"/>
+        </createIndex>
+    </changeSet>
+
+</databaseChangeLog>

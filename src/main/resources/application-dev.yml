@@ -1,0 +1,25 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/fintogether_dev
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
+      connection-timeout: 20000
+
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+# Development-specific JWT secret (not for production!)
+jwt:
+  secret: dev-secret-key-for-development-only-change-in-production-256-bits
+
+logging:
+  level:
+    com.fintogether: DEBUG
+    org.springframework.security: DEBUG
